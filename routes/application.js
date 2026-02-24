@@ -16,6 +16,11 @@ router.post("/apply", async (req, res) => {
             return res.status(400).json({ message: "Request body is empty" });
         }
 
+        // ✅ REMOVE empty userId to avoid Mongo ObjectId error
+        if (!req.body.userId || req.body.userId === "") {
+            delete req.body.userId;
+        }
+
         const newApp = new Application(req.body);
         await newApp.save();
 
