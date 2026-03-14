@@ -77,25 +77,27 @@ router.put("/update-status/:id", async (req, res) => {
 // ============================
 // 4️⃣ Student Status API
 // ============================
+// Student status by email
 router.get("/student/:email", async (req, res) => {
     try {
-        console.log("🔍 Checking status for:", req.params.email);
 
-        const application = await Application.findOne({
-            email: req.params.email
-        });
+        const email = req.params.email;
+
+        const application = await Application.findOne({ email: email });
 
         if (!application) {
-            return res.status(404).json({ message: "Application not found" });
+            return res.status(404).json({
+                message: "Application not found"
+            });
         }
 
         res.json(application);
 
     } catch (err) {
-        console.error("❌ Status error:", err);
-        res.status(500).json({ error: err.message });
+        res.status(500).json({
+            error: err.message
+        });
     }
 });
-
 
 module.exports = router;
